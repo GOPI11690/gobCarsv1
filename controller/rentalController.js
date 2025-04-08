@@ -36,7 +36,7 @@ const getRental=asyncHandler(async (req, res) => {
 
 //creating Rental details
 const addRental=asyncHandler(async(req, res) => {
-    //validation
+    try{//validation
     const {rentaldate,returndate,amount,rentalstatus}=req.body;
     if(!rentaldate||!amount){
         res.status(400);
@@ -49,7 +49,9 @@ const addRental=asyncHandler(async(req, res) => {
         userid:req.user.id,
     });
     res.status(200).send(rental);
-    
+    console.log("Rental added")    
+}
+catch(err){res.send(err);}
 });
 //deleting rental data
 const deleteRental=asyncHandler(async(req,res) => {

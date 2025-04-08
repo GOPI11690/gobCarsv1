@@ -49,7 +49,7 @@ const addCar=asyncHandler(async(req, res) => {
         userid:req.user.id,
     });
     res.status(200).send(car);
-    
+    console.log("Car added successfully ");
 });
 //update cara data
 const updateCar=asyncHandler(async(req,res)=>{
@@ -65,14 +65,15 @@ const updateCar=asyncHandler(async(req,res)=>{
         res.status(401);
         throw new Error("User not found");
     }
-    //authorised user only updating car
+    //authorized user only updating car
     if(car.userid.toString()!==req.user.id){
         res.status(401);
         throw new Error("User not authorized");
     }
     //updating the car data
     const updateCar=await CarModel.findByIdAndUpdate(req.params.id,req.body,{new:true});
-    res.status(200).send("Car info updated "+updateCar)
+    res.status(200).send(updateCar)
+    console.log("Car info updated ");
 });
 //delete car data
 const deleteCar=asyncHandler(async(req,res) => {
@@ -88,13 +89,14 @@ const deleteCar=asyncHandler(async(req,res) => {
         res.status(401);
         throw new Error("User not found");
     }
-    //authorised user only deleting car
+    //authorized user only deleting car
     if(car.userid.toString()!==req.user.id){
         res.status(401);
         throw new Error("User not authorized");
     }
     //deleting the car data
     const deleteCar=await CarModel.deleteOne({_id:req.params.id});
-    res.status(200).send("Car deleted sucessfully "+deleteCar._id);
+    res.status(200).send("Car ID : "+car.id);
+    console.log("Car deleted successfully");
 });
 module.exports = {getAllCars,getCar,addCar,updateCar,deleteCar};

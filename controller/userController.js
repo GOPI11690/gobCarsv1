@@ -5,13 +5,12 @@ const jwt=require("jsonwebtoken");
 require('dotenv').config();
 const asyncHandler=require("express-async-handler");
 
-
 /* Get All user Data - GET method */
 const getAllUsers=async (req, res) => { 
     try{
         //get all users data
     const user=await UserModel.find({});
-    console.log("Get all users Data sucessfully ");
+    console.log("Get all users Data successfully ");
     res.status(200).json(user);
     }
     catch(err) {res.send(err);}
@@ -44,6 +43,7 @@ const loginUser=asyncHandler(async(req, res) => {
             userstatus:user.userstatus,
             token:generateToken(user._id)
         });
+        console.log("User login successfully");
     }
     else{
         res.status(400);
@@ -88,6 +88,7 @@ const addUser=asyncHandler(async(req, res) => {
             role:user.role,
             userstatus:user.userstatus
         });
+        console.log("User created");
     }
     else{
         res.status(400);
@@ -104,6 +105,7 @@ const updateUser=asyncHandler(async(req,res)=>{
     }
     //update user data by id in db
     const updatedUser=await UserModel.findByIdAndUpdate(req.params.id,req.body,{new:true});
+    console.log("User data updated")
     res.status(200).send(updatedUser);
 });
 
@@ -117,6 +119,7 @@ const deleteUser=asyncHandler(async(req,res) => {
     }
     //delete user data by id in db
     const deletedUser=await UserModel.deleteOne({_id:req.params.id});
+    console.log("User deleted")
     res.status(200).send({id:req.params.id});
 });
 //token generation with id
